@@ -1,7 +1,6 @@
 # S3 destination bucket
 
 data "aws_iam_policy_document" "dest_bucket_policy" {
-  count = var.enable_destination ? 1 : 0
   statement {
     sid = "replicate-objects-from-${data.aws_caller_identity.source.account_id}"
 
@@ -26,10 +25,9 @@ data "aws_iam_policy_document" "dest_bucket_policy" {
 }
 
 resource "aws_s3_bucket" "dest" {
-  count    = var.enable_destination ? 1 : 0
   provider = aws.dest
   bucket   = local.dest_bucket_name
-  policy   = data.aws_iam_policy_document.dest_bucket_policy[0].json
+  policy   = data.aws_iam_policy_document.dest_bucket_policy.json
 
   versioning {
     enabled = true
