@@ -91,7 +91,7 @@ resource "aws_s3_bucket_replication_configuration" "replication" {
     priority = 0
     destination {
       bucket        = aws_s3_bucket.dest.arn
-      storage_class = "STANDARD"
+      storage_class = var.storage_class
       access_control_translation {
         owner = "Destination"
       }

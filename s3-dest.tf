@@ -32,4 +32,13 @@ resource "aws_s3_bucket" "dest" {
   versioning {
     enabled = true
   }
+
+  lifecycle_rule {
+    enabled = true
+    id      = "Always use chosen Storage Class"
+    transition {
+      days          = 0
+      storage_class = var.storage_class
+    }
+  }
 }

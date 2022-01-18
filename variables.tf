@@ -9,6 +9,12 @@ variable "enable_replication" {
   default     = true
 }
 
+variable "storage_class" {
+  type        = string
+  description = "AWS S3 Storage Class to use for replicated data"
+  default     = "GLACIER_IR"
+}
+
 locals {
   source_bucket_arn        = "arn:aws:s3:::${var.source_bucket_name}"
   dest_bucket_name         = "${var.source_bucket_name}-backup"
