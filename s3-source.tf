@@ -55,7 +55,7 @@ data "aws_iam_policy_document" "source_replication_policy" {
       "s3:InitiateReplication"
     ]
     resource = [
-      "${local.source_bucket_arn}",
+      "${local.source_bucket_object_arn}",
     ]
   }
 
