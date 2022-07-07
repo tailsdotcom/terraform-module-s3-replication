@@ -49,6 +49,47 @@ data "aws_iam_policy_document" "source_replication_policy" {
       "${local.dest_bucket_object_arn}",
     ]
   }
+
+  statement {
+    action = [
+      "s3:InitiateReplication"
+    ]
+    resource = [
+      "${local.source_bucket_object_arn}",
+    ]
+  }
+
+  statement {
+    action = [
+      "s3:GetReplicationConfiguration",
+      "s3:PutInventoryConfiguration"
+    ]
+
+    resource = [
+      "${local.source_bucket_arn}",
+    ]
+  }
+
+  statement {
+    action = [
+      "s3:GetObject",
+      "s3:GetObjectVersion"
+    ]
+
+    resource = [
+      "${local.source_bucket_object_arn}",
+    ]
+  }
+
+  statement {
+    action = [
+      "s3:PutObject"
+    ]
+
+    resource = [
+      "${local.source_bucket_object_arn}",
+    ]
+  }
 }
 
 resource "aws_iam_role" "source_replication" {
