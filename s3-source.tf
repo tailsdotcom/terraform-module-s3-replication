@@ -51,42 +51,42 @@ data "aws_iam_policy_document" "source_replication_policy" {
   }
 
   statement {
-    action = [
+    actions = [
       "s3:InitiateReplication"
     ]
-    resource = [
+    resources = [
       "${local.source_bucket_object_arn}",
     ]
   }
 
   statement {
-    action = [
+    actions = [
       "s3:GetReplicationConfiguration",
       "s3:PutInventoryConfiguration"
     ]
 
-    resource = [
+    resources = [
       "${local.source_bucket_arn}",
     ]
   }
 
   statement {
-    action = [
+    actions = [
       "s3:GetObject",
       "s3:GetObjectVersion"
     ]
 
-    resource = [
+    resources = [
       "${local.source_bucket_object_arn}",
     ]
   }
 
   statement {
-    action = [
+    actions = [
       "s3:PutObject"
     ]
 
-    resource = [
+    resources = [
       "${local.source_bucket_object_arn}",
     ]
   }
