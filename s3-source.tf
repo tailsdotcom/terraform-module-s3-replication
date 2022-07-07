@@ -9,7 +9,7 @@ data "aws_iam_policy_document" "source_replication_role" {
 
     principals {
       type        = "Service"
-      identifiers = ["s3.amazonaws.com", "batchoperations.s3.amazonaws.com", "s3:InitiateReplication", "s3:GetReplicationConfiguration", "s3:PutInventoryConfiguration", "s3:GetObject", "s3:GetObjectVersion"]
+      identifiers = ["s3.amazonaws.com", "batchoperations.s3.amazonaws.com"]
     }
   }
 }
@@ -46,6 +46,47 @@ data "aws_iam_policy_document" "source_replication_policy" {
     ]
 
     resources = [
+      "${local.dest_bucket_object_arn}",
+    ]
+  }
+
+  statement {
+    action = [
+      "s3:InitiateReplication"
+    ]
+    resource = [
+      "${local.dest_bucket_object_arn}",
+    ]
+  }
+
+  statement {
+    action = [
+      "s3:GetReplicationConfiguration",
+      "s3:PutInventoryConfiguration"
+    ]
+
+    resource = [
+      "${local.dest_bucket_object_arn}",
+    ]
+  }
+
+  statement {
+    action = [
+      "s3:GetObject",
+      "s3:GetObjectVersion"
+    ]
+
+    resource = [
+      "${local.dest_bucket_object_arn}",
+    ]
+  }
+
+  statement {
+    action = [
+      "s3:PutObject"
+    ]
+
+    resource = [
       "${local.dest_bucket_object_arn}",
     ]
   }
