@@ -27,15 +27,28 @@ data "aws_iam_policy_document" "dest_bucket_policy" {
 resource "aws_s3_bucket" "dest" {
   provider = aws.dest
   bucket   = local.dest_bucket_name
+}
+
+resource "aws_s3_bucket_policy" "dest" {
+  provider = aws.dest
+  bucket   = aws_s3_bucket.dest.id
   policy   = data.aws_iam_policy_document.dest_bucket_policy.json
+}
 
-  versioning {
-    enabled = true
+resource "aws_s3_bucket_versioning" "dest" {
+  provider = aws.dest
+  bucket   = aws_s3_bucket.dest.id
+  versioning_configuration {
+    status = "Enabled"
   }
+}
 
-  lifecycle_rule {
-    enabled = true
-    id      = "Always use chosen Storage Class"
+resource "aws_s3_bucket_lifecycle_configuration" "dest" {
+  provider = aws.dest
+  bucket   = aws_s3_bucket.dest.id
+  rule {
+    status = "Enabled"
+    id     = "Always use chosen Storage Class"
     transition {
       days          = 0
       storage_class = var.storage_class
