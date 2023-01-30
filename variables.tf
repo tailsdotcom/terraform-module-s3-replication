@@ -2,6 +2,11 @@ variable "source_bucket_name" {
   type        = string
   description = "Name for source s3 bucket"
 }
+variable "dest_bucket_name_override" {
+  type        = string
+  description = "Override destination s3 bucket"
+  default     = ""
+}
 
 variable "enable_replication" {
   type        = bool
@@ -17,7 +22,7 @@ variable "storage_class" {
 
 locals {
   source_bucket_arn        = "arn:aws:s3:::${var.source_bucket_name}"
-  dest_bucket_name         = "${var.source_bucket_name}-backup"
+  dest_bucket_name         = var.dest_bucket_name_override != "" ? var.dest_bucket_name_override : "${var.source_bucket_name}-backup"
   dest_bucket_arn          = "arn:aws:s3:::${local.dest_bucket_name}"
   source_bucket_object_arn = "arn:aws:s3:::${var.source_bucket_name}/*"
   dest_bucket_object_arn   = "arn:aws:s3:::${local.dest_bucket_name}/*"
